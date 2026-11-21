@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منظومة الگارد</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap">
+<style>
+:root{--ac:#8fe3ff;--gold:#ffd27a;--glass:rgba(18,28,60,.62);--line:rgba(143,227,255,.28);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:#fff;font-family:Cairo,Tahoma,Arial,sans-serif;background:radial-gradient(ellipse at 50% 0%,#1b2b63 0%,#0c1233 45%,#04060f 100%) fixed}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#app{position:relative;z-index:1;padding:16px 14px 40px;max-width:560px;margin:0 auto}
+.title{text-align:center;margin:10px 0 18px}
+.title h1{margin:0;font-size:30px;font-weight:800;background:linear-gradient(90deg,#8fe3ff,#fff,#ffd27a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(143,227,255,.35)}
+.title p{margin:6px 0 0;color:#cfe4ff;font-size:14px}
+.title .moon{font-size:34px;filter:drop-shadow(0 0 12px rgba(255,236,170,.7))}
+.sec{display:flex;align-items:center;gap:10px;margin:14px 2px 10px;font-weight:800;font-size:17px;color:var(--gold)}
+.sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.it{display:flex;align-items:center;gap:12px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:transform .15s,box-shadow .2s,border-color .2s}
+.it:hover,.it:active{transform:scale(1.02);border-color:var(--ac);box-shadow:0 0 18px rgba(143,227,255,.35)}
+.n{min-width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;background:linear-gradient(135deg,#3aa0ff,#7b5cff);box-shadow:0 0 12px rgba(91,140,255,.7)}
+.it .tx{flex:1}
+.it b{display:block;font-size:16px;direction:ltr;text-align:right}
+.it small{color:#b9d6ff}
+.it .ar{color:var(--gold);font-size:22px}
+button{font:inherit;font-weight:600;color:#fff;border:0;border-radius:14px;padding:11px 22px;background:linear-gradient(135deg,#2f9bff,#7b5cff);box-shadow:0 4px 16px rgba(80,120,255,.5);cursor:pointer;transition:transform .12s,box-shadow .2s,filter .2s}
+button:hover{filter:brightness(1.15);box-shadow:0 0 22px rgba(123,92,255,.8)}
+button:active{transform:scale(.94)}
+button.g{background:rgba(255,255,255,.12);border:1px solid var(--line);box-shadow:none}
+#go{min-width:120px;font-size:17px}
+#go.on{background:linear-gradient(135deg,#ff8a5c,#ff4f81);box-shadow:0 4px 16px rgba(255,90,120,.5)}
+.back{margin-bottom:8px;padding:8px 16px}
+.hd{text-align:center;margin:6px 0 14px}
+.hd small{color:var(--gold);font-weight:600}
+.hd b{display:block;font-size:28px;font-weight:800;direction:ltr;background:linear-gradient(90deg,#8fe3ff,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hd span{color:#cfe4ff}
+.now{background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:22px;padding:14px;text-align:center;margin-bottom:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:5;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.now .ph{color:var(--ac);font-weight:800;font-size:17px;min-height:26px}
+.ring{position:relative;width:150px;height:150px;margin:4px auto}
+.ring svg{transform:rotate(-90deg);width:150px;height:150px}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .bg{stroke:rgba(255,255,255,.12)}
+.ring .fg{stroke:url(#gr);stroke-dasharray:339.3;stroke-dashoffset:0;transition:stroke-dashoffset .3s linear;filter:drop-shadow(0 0 6px rgba(143,227,255,.8))}
+.c{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;direction:ltr;font-variant-numeric:tabular-nums}
+.tot{font-size:12px;color:#cfe4ff;margin:2px 0 8px}
+.bar{height:6px;background:rgba(255,255,255,.12);border-radius:3px;margin:4px 0 12px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8fe3ff,#ffd27a);border-radius:3px}
+table{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:14px}
+th{color:var(--gold);padding:4px;font-weight:800}
+td{background:var(--glass);padding:10px 6px;text-align:center;line-height:1.5;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+td:first-child{border-radius:0 12px 12px 0;border-right:1px solid var(--line)}
+td:last-child{border-radius:12px 0 0 12px;border-left:1px solid var(--line)}
+td.t{font-size:12px;width:24%;direction:ltr;color:#cfe4ff}
+td.p{font-weight:800;width:22%;color:var(--ac)}
+tr.cur td{background:linear-gradient(90deg,rgba(47,155,255,.55),rgba(123,92,255,.55));border-color:var(--ac);box-shadow:0 0 16px rgba(143,227,255,.4)}
+tr.cur td.p{color:#fff}
+tr.dn td{opacity:.4}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div id="app"></div>
+<script>
+// starry sky
+(function(){
+  var c=document.getElementById("sky"),x=c.getContext("2d"),S=[],W,H,sh=null,dpr=Math.min(window.devicePixelRatio||1,2);
+  function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);S=[];for(var i=0;i<Math.round(W*H/5500);i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,p:Math.random()*6.28,s:Math.random()*1.5+.4})}
+  size();addEventListener("resize",size);
+  var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function f(t){
+    x.clearRect(0,0,W,H);
+    S.forEach(function(s){var a=.35+.65*Math.abs(Math.sin(t/1000*s.s+s.p));x.globalAlpha=a;x.fillStyle="#fff";x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);x.fill()});
+    x.globalAlpha=1;
+    if(!calm){
+      if(!sh&&Math.random()<.004)sh={x:Math.random()*W,y:Math.random()*H*.4,l:0};
+      if(sh){sh.x-=9;sh.y+=5;sh.l++;var g=x.createLinearGradient(sh.x,sh.y,sh.x+70,sh.y-38);g.addColorStop(0,"rgba(255,255,255,.9)");g.addColorStop(1,"rgba(255,255,255,0)");x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(sh.x,sh.y);x.lineTo(sh.x+70,sh.y-38);x.stroke();if(sh.l>45)sh=null}
+      requestAnimationFrame(f)
+    }
+  }
+  requestAnimationFrame(f);
+})();
+
+var PH=[["16:30","16:45","إحماء",15],["16:45","17:10","تمارين قدرة وتحمل",25],["17:10","17:15","استراحة",5],["17:15","17:25","شرح الحركة",10],["17:25","17:40","تطبيق الحركة",15],["17:40","17:55","سبارينغ",15],["17:55","18:00","تحية وإطالة",5]];
+var ORD=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر"];
+function L(w,d,en,ar,pr,wu,ex,sp){return{w:w,d:d,en:en,ar:ar,pr:pr,wu:wu||"جري + تدوير اليدين والرجلين",ex:ex||("شرح حركة "+en+" ("+ar+")"),sp:sp||"سبارينغ موجه"}}
+var LS=[
+L(1,"الاثنين","Closed Guard","الحرس المغلق","ضغط مكثف + شريمب + جسر",0,"شرح الحرس المغلق وإغلاق الساقين"),
+L(1,"الأربعاء","Open Guard","الحرس المفتوح","ضغط واسع وضيق + بلانك","جري + حركة أرضية","شرح التحكم بالقدمين والمسافة"),
+L(1,"الجمعة","Half Guard","نصف الحرس","هرم الضغط + بيربي","جري + سقوط آمن","شرح حصر الساق والوقاية","سبارينغ حر"),
+L(2,"الاثنين","Butterfly Guard","حرس الفراشة","ضغط متفجر وجسر"),
+L(2,"الأربعاء","Z-Guard","زد گارد","ضغط ضيق وتمارين معدة"),
+L(2,"الجمعة","De La Riva","دي لا ريفا","شريمب"),
+L(3,"الاثنين","Collar Guard","كولار گارد","ضغط ولمس الكتف"),
+L(3,"الأربعاء","Z-Guard","سبادر گارد","جانبي وقبضات"),
+L(3,"الجمعة","X-Guard","إكس گارد","دائرة ضغط وتحمل شامل"),
+L(4,"الاثنين","De La Riva","دي لاريفا","ضغط عادي وتحمل وبيربي وشريمب"),
+L(4,"الأربعاء","Single Leg X","سينغل إكس","ضغط واسع وبيربي"),
+L(4,"الجمعة","Lasso Guard","لاسو گارد","هرم الضغط + تحدي التحمل والضغط",0,"شرح Lasso Guard + مراجعة شاملة","سبارينغ طويل / حر")
+];
+var app=document.getElementById("app"),T=null;
+function pad(n){return(n<10?"0":"")+n}
+function fmt(s){s=Math.max(0,Math.ceil(s));return pad(Math.floor(s/60))+":"+pad(s%60)}
+function beep(n){try{var a=new(window.AudioContext||window.webkitAudioContext)();[0,0.3].slice(0,n||1).forEach(function(d){var o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start(a.currentTime+d);o.stop(a.currentTime+d+0.2)})}catch(e){}try{navigator.vibrate&&navigator.vibrate(300)}catch(e){}}
+function list(){
+  stop();T=null;
+  var h='<div class="title"><div class="moon">🌙</div><h1>منظومة الگارد</h1><p>الجي جيتسو · الاثنين والأربعاء والجمعة · 16:30 – 18:00</p></div>';
+  LS.forEach(function(x,i){
+    if(i%3===0)h+='<div class="sec">✦ الأسبوع '+x.w+'</div>';
+    h+='<div class="it" onclick="show('+i+')"><span class="n">'+(i+1)+'</span><span class="tx"><b>الدرس '+ORD[i]+' · '+x.en+'</b><small>'+x.ar+' · '+x.d+'</small></span><span class="ar">‹</span></div>';
+  });
+  app.innerHTML=h;scrollTo(0,0);
+}
+function show(i){
+  var x=LS[i],tx=[x.wu,x.pr,"استراحة",x.ex,"تطبيق الحركة مع الزميل","سبارينغ: "+x.sp,"تحية وإطالة"];
+  T={i:i,el:0,run:0,t0:0,last:-1,id:null,tot:5400};
+  var h='<button class="back g" onclick="list()">→ الفهرس</button><div class="hd"><small>✦ الدرس '+ORD[i]+' ✦</small><b>'+x.en+'</b><span>'+x.ar+'</span></div>';
+  h+='<div class="now"><div class="ph" id="ph">جاهز للبدء</div><div class="ring"><svg viewBox="0 0 120 120"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fe3ff"/><stop offset="1" stop-color="#ffd27a"/></linearGradient></defs><circle class="bg" cx="60" cy="60" r="54"/><circle class="fg" id="fg" cx="60" cy="60" r="54"/></svg><div class="c" id="c">'+fmt(PH[0][3]*60)+'</div></div><div class="tot" id="tot">الوقت المتبقي للحصة: '+fmt(5400)+'</div><div class="bar"><i id="bar"></i></div><button id="go" onclick="tog()">▶ ابدأ</button> <button class="g" onclick="rst()">↺ إعادة</button></div>';
+  h+='<div class="sec">✦ جدول الحصة</div><table><tr><th>الوقت</th><th>المرحلة</th><th>التفاصيل</th></tr>';
+  PH.forEach(function(p,k){h+='<tr id="r'+k+'"><td class="t">'+p[0]+' - '+p[1]+'</td><td class="p">'+p[2]+'</td><td>'+tx[k]+'</td></tr>'});
+  app.innerHTML=h+'</table>';
+  document.getElementById("fg").style.strokeDashoffset=0;
+  scrollTo(0,0);
+}
+function elapsed(){return T.el+(T.run?(Date.now()-T.t0)/1000:0)}
+function setGo(t,on){var b=document.getElementById("go");b.textContent=t;b.className=on?"on":""}
+function tick(){
+  var e=elapsed(),acc=0,k=0;
+  if(e>=T.tot){e=T.tot;k=PH.length}
+  else{for(k=0;k<PH.length;k++){if(e<acc+PH[k][3]*60)break;acc+=PH[k][3]*60}}
+  if(k>=PH.length){stop();T.el=T.tot;paint(PH.length-1,0,1);document.getElementById("ph").textContent="انتهت الحصة 🥋 أحسنت!";document.getElementById("c").textContent="00:00";document.getElementById("tot").textContent="الوقت المتبقي للحصة: 00:00";document.getElementById("bar").style.width="100%";setGo("▶ ابدأ",0);beep(2);return}
+  if(k!==T.last){if(T.last>=0)beep(1);T.last=k}
+  paint(k,PH[k][3]*60-(e-acc),0);
+  document.getElementById("tot").textContent="الوقت المتبقي للحصة: "+fmt(T.tot-e);
+  document.getElementById("bar").style.width=(e/T.tot*100)+"%";
+}
+function paint(k,left,fin){
+  document.getElementById("ph").textContent=fin?"":"الآن: "+PH[k][2]+" ("+(k+1)+" من "+PH.length+")";
+  document.getElementById("c").textContent=fmt(left);
+  document.getElementById("fg").style.strokeDashoffset=339.3*(fin?1:(1-left/(PH[k][3]*60)));
+  PH.forEach(function(p,j){document.getElementById("r"+j).className=fin||j<k?"dn":(j===k?"cur":"")});
+}
+function tog(){
+  if(T.run){T.el=elapsed();T.run=0;stop();setGo("▶ متابعة",0);return}
+  if(T.el>=T.tot){rst();}
+  T.run=1;T.t0=Date.now();setGo("❚❚ إيقاف",1);
+  if(T.last<0)beep(1);
+  tick();T.id=setInterval(tick,250);
+}
+function stop(){if(T&&T.id){clearInterval(T.id);T.id=null}if(T)T.run=0}
+function rst(){stop();show(T.i)}
+list();
+</script>
+</body>
+</html>
